@@ -11,6 +11,8 @@ class report extends MY_Controller {
 /*	public function index() {
 		$this->load->view('report/hiburan');
 	}
+
+	//Tes buat menulis di git
 */
 	public function form(){
 		$this->load->view('report/form');
