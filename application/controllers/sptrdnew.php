@@ -31,6 +31,7 @@ class sptrdnew extends MY_Controller {
 		$data['userPetugas'] = $this->session->userdata('username');
 		$data['tarif'] = $tarif->tarif_pajak;
 		$data['skpd'] = $this->db->query("SELECT kd_skpd,CONCAT(kd_skpd, ' | ',nama_skpd) AS nama_skpd FROM master_skpd");
+		//$data['skpd'] = $this->db->query("SELECT nama_skpd AS nama_skpd FROM master_skpd");
 		$s = $this->db->query("select nama from admin where username='".$this->session->userdata('username')."'")->row();
 		$data['namaPetugas'] = $s->nama;
 		$data['tahun'] = $this->msistem->tahun();
@@ -39,6 +40,14 @@ class sptrdnew extends MY_Controller {
 		$pemilik = "";
 		$perusahaan = "";
 		$this->load->view('data/sptrdnew',$data);
+	}
+	
+	public function crek_skpd() {
+		$kd = $this->input->post('skpd');
+		$e = $this->db->query("SELECT kd_skpd,nama_skpd FROM master_skpd WHERE kd_skpd='".$kd."'")->row();
+		$kirim = $e->kd_skpd.'|'.$e->nama_skpd;
+		
+		echo $kirim;
 	}
 	
 	function bank(){
@@ -72,14 +81,7 @@ class sptrdnew extends MY_Controller {
 		echo $tarif;
 	}
 	
-	public function crek_skpd() {
-		$kd = $this->input->post('skpd');
-		$e = $this->db->query("SELECT kd_skpd,nama_skpd FROM master_skpd WHERE kd_skpd='".$kd."'")->row();
-		$kirim = $e->kd_skpd.'|'.$e->nama_skpd;
 		
-		echo $kirim;
-	}
-	
 	function load_subjenis(){
 		$rek  = $this->input->post('kode');
 		if($rek!=""){
@@ -298,8 +300,8 @@ LEFT JOIN master_rekening c ON c.pajak = LEFT(a.npwpd_perusahaan,1) AND c.pajak_
 	public function data() {
 		$grid = new GridConnector($this->db->conn_id);
 		$grid->render_sql("SELECT id, no_sptrd, tahun, kriteria_htg, jml_karcis, skpd_pengelola, 
-		tgl_diterima, no_karcis1, no_karcis2, jns_retribusi, sub_jns_retribusi, jml_bayar, author, petugas_penagih,jml_buku FROM sptrd order by no_sptrd DESC","id","id, no_sptrd, tahun, kriteria_htg, 
-		jml_karcis, skpd_pengelola, tgl_diterima, no_karcis1, no_karcis2, jns_retribusi, sub_jns_retribusi, jml_bayar, author, petugas_penagih,jml_buku");	
+		tgl_diterima, no_karcis1, no_karcis2, jns_retribusi, sub_jns_retribusi, jml_bayar, author, petugas_penagih,jml_buku,kd_skpd FROM sptrd order by no_sptrd DESC","id","id, no_sptrd, tahun, kriteria_htg, 
+		jml_karcis, skpd_pengelola, tgl_diterima, no_karcis1, no_karcis2, jns_retribusi, sub_jns_retribusi, jml_bayar, author, petugas_penagih,jml_buku,kd_skpd");	
 	}
 	
 	public function data_bank() {

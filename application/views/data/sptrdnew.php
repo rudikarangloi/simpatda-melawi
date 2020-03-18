@@ -63,6 +63,14 @@
 
 <script language="javascript">
 	var base_url = "<?php echo base_url(); ?>";
+	/*
+	
+	var pil2 = document.frmSKPDHotel.nama_perusahaan.value;   
+		var postStr =
+			"skpd=" + pil2;  
+		
+		dhtmlxAjax.post(base_url+'index.php/sptrdnew/crek_skpd', postStr, wenePOST_skpd);
+	*/
 	
 	$(function(){
 			$('#subjenis').combogrid({  
@@ -423,11 +431,18 @@
 	
 	function ubah() {
 		var name=prompt("Please enter your password","");
+		
+		disableData1();
+				/* document.frmSKPDHotel.txtblnmasapajak1.disabled = true;
+				document.frmSKPDHotel.txtblnmasapajak2.disabled = true;*/
+				document.frmSKPDHotel.txtthnmasapajak.disabled = true; 
+				document.frmSKPDHotel.baru1.disabled = false;
+				document.frmSKPDHotel.tambah.disabled = false;
+		/*
 		if (name!=null){
 			if(name=='dispenda'){
 				disableData1();
-				/* document.frmSKPDHotel.txtblnmasapajak1.disabled = true;
-				document.frmSKPDHotel.txtblnmasapajak2.disabled = true;*/
+				
 				document.frmSKPDHotel.txtthnmasapajak.disabled = true; 
 				document.frmSKPDHotel.baru1.disabled = false;
 				document.frmSKPDHotel.tambah.disabled = false;
@@ -437,6 +452,7 @@
 		} else {
 			alert("Password anda salah");
 		}
+		*/
 	}
 </script>
 <style>
@@ -487,17 +503,45 @@
                 <input type="hidden" onclick="opens()" value="Cari" id="cari1" name="cari1" style="padding-left:20px; padding-right:20px" disabled/>
                 </td>
     		</tr>
-            <tr>
+			
+				
+			<tr>
               	<td style="padding-left:15px;"> SKPD Pengelola</td>
-                <td><select id="nama_perusahaan" name="nama_perusahaan" style="width:300px;" disabled="disabled" onchange="crek_skpd();">
-                                	<option value=""></option>
-									 <?php 
-									foreach($skpd->result() as $rs) {
-											echo "<option value=".$rs->nama_skpd.">".$rs->nama_skpd."</option>";
-										} 
-									?> 
-                                </select></td>
+                <td>
+					<select id="nama_perusahaan" name="nama_perusahaan" style="width:300px;" 
+							disabled="disabled" onchange="crek_skpd();">
+                        <option value=""></option>
+							<?php 
+								foreach($skpd->result() as $rs) {
+									echo "<option value=".$rs->kd_skpd.">".$rs->nama_skpd."</option>";
+								} 
+							?> 
+                    </select>
+				</td>
             </tr>
+			<tr>
+              	<td style="padding-left:15px;">Jenis Retribusi</td>
+                <td colspan="2">
+					<select name="gol" id="gol" disabled="disabled">
+						<option value=""></option>
+						<?php 
+							foreach($gresto->result() as $rs) {
+								echo "<option value=".$rs->kd_rek.">".$rs->nm_rek."</option>";
+						}
+						?>
+					</select>
+				</td>
+            </tr>
+			<tr>
+              	<td style="padding-left:15px;">Sub Jenis Retribusi</td>
+                <td><input type="text" value = name="subjenis" id="subjenis" style="width: 150px;" disabled/></td>
+            </tr>
+			
+			<tr>
+              	<td style="padding-left:15px;">Sub Jenis Retribusi 2</td>
+                <td><input type="text" value = name="subjenis2" id="subjenis2" style="width: 150px;" disabled/></td>
+            </tr>
+			
             <tr>
               	<!--<td style="padding-left:15px;"> Alamat Usaha</td>-->
                 <td><input type="hidden" name="alamat_perusahaan" id="alamat_perusahaan" style="background-color:#FFFFCC;" size="45" disabled/></td>
@@ -526,9 +570,9 @@
                           <td style="padding-left:15px;">Kriteria Perhitungan</td>
                           <td>
                           <select id="perhitungan" name="perhitungan" disabled="disabled">
-                            <option value="hari">Harian</option>
-                            <option value="bulan">Bulanan</option>
-                            <option value="insidentil">Insidentil</option>
+                            <option value="HARI">Harian</option>
+                            <option value="BULAN">Bulanan</option>
+                            <option value="INSIDENTIL">Insidentil</option>
                           </select></td>
 						  <input name="nm2" type="hidden" id="nm2" size="10" readonly style="background-color:#FFFFCC;" ></td>
 						  <input name="kd2" type="hidden" id="kd2" size="10" readonly style="background-color:#FFFFCC;" ></td>
@@ -544,21 +588,7 @@
               	<td style="padding-left:15px;">Petugas Penagih</td>
                 <td><input type="text" name="penagih" id="penagih" size="13" disabled/></td>
             </tr>
-           	<tr>
-              	<td style="padding-left:15px;">Jenis Retribusi</td>
-                <td colspan="2"><select name="gol" id="gol" disabled="disabled">
-                <option value=""></option>
-                <?php 
-				foreach($gresto->result() as $rs) {
-						echo "<option value=".$rs->kd_rek.">".$rs->nm_rek."</option>";
-					}
-				?>
-                </select></td>
-            </tr>
-			<tr>
-              	<td style="padding-left:15px;">Sub Jenis Retribusi</td>
-                <td><input type="text" name="subjenis" id="subjenis" style="width: 150px;" disabled/></td>
-            </tr>
+           	
             <!--<tr>
               	<td style="padding-left:15px;">Masa Pajak</td>
                 <td colspan="2"><input type="text" name="txttglmasapajak1" id="txttglmasapajak1" size="12" readonly />&nbsp;
@@ -820,13 +850,13 @@
 	grid = new dhtmlXGridObject('gridContent');
 	grid.setImagePath("<?php echo base_url(); ?>/assets/codebase_grid/imgs/");
 	//grid.setHeader("id, No SPTRD, Tahun, Kriteria Hitung, Jumlah Karcis, SKPD Pengelola, Tanggal Terima, No Karcis 1, No Karcis 2, JNS Retribusi, SUB JNS Retribusi, Jumlah,Petuga Input, Petugas Penagih"); //13--Ori
-	grid.setHeader("id, No SPTRD, Tahun, Kriteria Hitung, Jumlah Karcis, SKPD Pengelola, Tanggal Terima, No Karcis 1, No Karcis 2, JNS Retribusi, SUB JNS Retribusi, Jumlah,Petugas Input, Petugas Penagih, Jumlah Buku");//New
-	//grid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter"); //Ori
-	grid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter"); //new
-	grid.setInitWidths("50,100,100,100,100,170,100,100,100,100,100,100,100,100,100");
-	grid.setColAlign("center,left,center,center,center,left,left,center,center,left,left,left,left,left,center");
-	grid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
-	grid.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+	grid.setHeader("id,	No SPTRD, Tahun, Kriteria Hitung, Jumlah Karcis, SKPD Pengelola,Tanggal Terima, No Karcis 1, No Karcis 2,JNS Retribusi,SUB JNS Retribusi, Jumlah,Petugas Input, Petugas Penagih, Jumlah Buku,kode SKPD");//New
+
+	grid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter"); //new
+	grid.setInitWidths("50,100,100,100,100,170,100,100,100,100,100,100,100,100,100,100");
+	grid.setColAlign("center,left,center,center,center,left,left,center,center,left,left,left,left,left,center,center");
+	grid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+	grid.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
 	grid.enablePaging(true,25,10,"pagingArea",true);
 	grid.setPagingSkin("bricks");
 	grid.setColumnHidden(0,true);
@@ -861,15 +891,17 @@
 		document.frmSKPDHotel.txtthnmasapajak.value	= grid.cells(id,2).getValue();
 		document.frmSKPDHotel.perhitungan.value	= grid.cells(id,3).getValue();
 		document.frmSKPDHotel.jumlah.value	= grid.cells(id,4).getValue();
-		document.frmSKPDHotel.nama_perusahaan.value	= grid.cells(id,5).getValue();
+		document.frmSKPDHotel.nama_perusahaan.value	= grid.cells(id,15).getValue();
 		document.frmSKPDHotel.tgl.value 	 	= grid.cells(id,6).getValue();
 		document.frmSKPDHotel.karcis1.value 	 	= grid.cells(id,7).getValue();
 		document.frmSKPDHotel.karcis2.value 	 	= grid.cells(id,8).getValue();
 		document.frmSKPDHotel.gol.value 	 	= grid.cells(id,9).getValue();
 		document.frmSKPDHotel.subjenis.value 	 	= grid.cells(id,10).getValue();
+		document.frmSKPDHotel.subjenis2.value 	 	= grid.cells(id,10).getValue();
 		document.frmSKPDHotel.setoran.value 	 	= grid.cells(id,11).getValue();
 		document.frmSKPDHotel.penagih.value 	 	= grid.cells(id,13).getValue();
-		document.frmSKPDHotel.buku.value 	= grid.cells(id,14).getValue();//tes
+		document.frmSKPDHotel.buku.value 	    = grid.cells(id,14).getValue();//tes
+		
 		statusEnding();
 	}
 	
