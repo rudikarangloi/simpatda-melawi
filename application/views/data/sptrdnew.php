@@ -63,15 +63,8 @@
 
 <script language="javascript">
 	var base_url = "<?php echo base_url(); ?>";
+	
 	/*
-	
-	var pil2 = document.frmSKPDHotel.nama_perusahaan.value;   
-		var postStr =
-			"skpd=" + pil2;  
-		
-		dhtmlxAjax.post(base_url+'index.php/sptrdnew/crek_skpd', postStr, wenePOST_skpd);
-	*/
-	
 	$(function(){
 			$('#subjenis').combogrid({  
                 panelWidth:800,  
@@ -84,10 +77,15 @@
                         {field:'kd_rek',title:'Kode',width:70},  
                         {field:'nm_rek',title:'Nama Rekening',align:'left',width:700},
                     ]],
-                    onSelect:function(rowIndex,rowData){
+                    onSelect:function(rowIndex,rowData){						
+						
+						document.frmSKPDHotel.subjenis2.value = rowData['kd_rek'] + ' :' + rowData['nm_rek'];
+						
                     }   
                 });
 		})
+		
+		*/
 		
 	function load_subjenis(){
 		$("#subjenis").combogrid("setValue",'');        
@@ -316,26 +314,31 @@
 		arr2 = tgl2.split("/");
 		akhir = arr2[2]+'-'+arr2[1]+'-'+arr2[0];
 		gol = document.frmSKPDHotel.gol.value
-		sub    = $("#subjenis").combogrid("getValue");
+		//sub    = $("#subjenis").combogrid("getValue");
+		sub = document.frmSKPDHotel.subjenis.value
 		sub2   = sub.substring(0,9);
-		/* if(gol!=sub2){
-			alert("Sub Jenis bukan termasuk Golongan yang dipilih");
-			return;
-		}    */
+		
+		kd_skpd = document.frmSKPDHotel.nama_perusahaan.value
+		var terminal = document.getElementById("nama_perusahaan");
+		var nm_skpd = terminal.options[terminal.selectedIndex].text;
+		
+		var res = nm_skpd.split("|");
+		nm_skpd = res[1]
+					
+		console.log(res[0]);
+		console.log(res[1]);
+		
 		
 		
 		var postStr =
 			"id=" + document.frmSKPDHotel.id.value +
 			"&npwpd=" + document.frmSKPDHotel.npwpd.value +
-			"&sptpd=" + arrfull +
-			//"&jns=" + jnsSPT +
-			/*"&ket_pajak=" + sen +
-			 "&awal=" + document.frmSKPDHotel.txtblnmasapajak1.value +
-			"&akhir=" + document.frmSKPDHotel.txtblnmasapajak2.value +*/
-			"&tahun=" + document.frmSKPDHotel.txtthnmasapajak.value + 
-			//"&ket=" + document.frmSKPDHotel.ket_insidentil.value +
-			"&nama=" + document.frmSKPDHotel.nm2.value +
-			"&kd_skpd=" + document.frmSKPDHotel.kd2.value +
+			"&sptpd=" + arrfull +			
+			"&tahun=" + document.frmSKPDHotel.txtthnmasapajak.value + 			
+			//"&nama=" + document.frmSKPDHotel.nm2.value +
+			//"&kd_skpd=" + document.frmSKPDHotel.kd2.value +
+			"&nama=" + nm_skpd +
+			"&kd_skpd=" + kd_skpd +
 			"&subjenis=" + sub +
 			"&perhitungan=" + document.frmSKPDHotel.perhitungan.value +
 			"&alamat=" + document.frmSKPDHotel.alamat_perusahaan.value +
@@ -343,12 +346,8 @@
 			"&karcis1=" + document.frmSKPDHotel.karcis1.value +
 			"&karcis2=" + document.frmSKPDHotel.karcis2.value +
 			"&penagih=" + document.frmSKPDHotel.penagih.value +
-			//"&cara=" + document.frmSKPDHotel.cara.value +
-			"&tgl=" + skrg +
-			//"&petugas=" + document.frmSKPDHotel.petugas.value +
-			"&gol=" + document.frmSKPDHotel.gol.value +
-			//"&ket_inap=" + document.frmSKPDHotel.ket_inap.value +			
-			//"&tgl1=" + awal +
+			"&tgl=" + skrg +			
+			"&gol=" + document.frmSKPDHotel.gol.value +			
 			"&tarif=" + document.frmSKPDHotel.tarif.value  +
 			"&jumlah=" + document.frmSKPDHotel.jumlah.value +
 			"&setoran=" + document.frmSKPDHotel.setoran.value;
@@ -433,12 +432,12 @@
 		var name=prompt("Please enter your password","");
 		
 		disableData1();
-				/* document.frmSKPDHotel.txtblnmasapajak1.disabled = true;
-				document.frmSKPDHotel.txtblnmasapajak2.disabled = true;*/
-				document.frmSKPDHotel.txtthnmasapajak.disabled = true; 
-				document.frmSKPDHotel.baru1.disabled = false;
-				document.frmSKPDHotel.tambah.disabled = false;
-		/*
+		/* document.frmSKPDHotel.txtblnmasapajak1.disabled = true;
+		document.frmSKPDHotel.txtblnmasapajak2.disabled = true;*/
+		document.frmSKPDHotel.txtthnmasapajak.disabled = true; 
+		document.frmSKPDHotel.baru1.disabled = false;
+		document.frmSKPDHotel.tambah.disabled = false;
+		
 		if (name!=null){
 			if(name=='dispenda'){
 				disableData1();
@@ -452,7 +451,7 @@
 		} else {
 			alert("Password anda salah");
 		}
-		*/
+		
 	}
 </script>
 <style>
@@ -532,15 +531,31 @@
 					</select>
 				</td>
             </tr>
-			<tr>
-              	<td style="padding-left:15px;">Sub Jenis Retribusi</td>
-                <td><input type="text" value = name="subjenis" id="subjenis" style="width: 150px;" disabled/></td>
-            </tr>
 			
 			<tr>
-              	<td style="padding-left:15px;">Sub Jenis Retribusi 2</td>
-                <td><input type="text" value = name="subjenis2" id="subjenis2" style="width: 150px;" disabled/></td>
+              	<td style="padding-left:15px;">Sub Jenis Retribusi</td>
+                <td colspan="2">
+					<select name="subjenis" id="subjenis" >
+						<option value=""></option>
+						<?php 
+							foreach($sub_gresto->result() as $rss) {
+								echo "<option value=".$rss->kd_rek.">".$rss->nm_rek."</option>";
+						}
+						?>
+					</select>
+				</td>
             </tr>
+			<!--
+			<tr>
+              	<td style="padding-left:15px;">Sub Jenis Retribusi</td>
+                <td>
+					<input type="text" name="subjenis2" id="subjenis2" style="width: 450px;" disabled/>
+					<input type="text" name="subjenis" id="subjenis" style="width: 1px;" disabled/>
+				</td>
+            </tr>
+			-->
+			
+			
 			
             <tr>
               	<!--<td style="padding-left:15px;"> Alamat Usaha</td>-->
@@ -892,12 +907,20 @@
 		document.frmSKPDHotel.perhitungan.value	= grid.cells(id,3).getValue();
 		document.frmSKPDHotel.jumlah.value	= grid.cells(id,4).getValue();
 		document.frmSKPDHotel.nama_perusahaan.value	= grid.cells(id,15).getValue();
-		document.frmSKPDHotel.tgl.value 	 	= grid.cells(id,6).getValue();
+		//document.frmSKPDHotel.tgl.value 	 	= grid.cells(id,6).getValue();
+		
+		arrTgl = grid.cells(id,6).getValue().split("-");
+		document.frmSKPDHotel.tgl.value 	 	= arrTgl[2]+'/'+arrTgl[1]+'/'+arrTgl[0]
+		
 		document.frmSKPDHotel.karcis1.value 	 	= grid.cells(id,7).getValue();
 		document.frmSKPDHotel.karcis2.value 	 	= grid.cells(id,8).getValue();
 		document.frmSKPDHotel.gol.value 	 	= grid.cells(id,9).getValue();
+		
+		//document.frmSKPDHotel.gol2.value 	 	= grid.cells(id,10).getValue();
+		
 		document.frmSKPDHotel.subjenis.value 	 	= grid.cells(id,10).getValue();
-		document.frmSKPDHotel.subjenis2.value 	 	= grid.cells(id,10).getValue();
+		//document.frmSKPDHotel.subjenis2.value 	 	= grid.cells(id,10).getValue();
+		
 		document.frmSKPDHotel.setoran.value 	 	= grid.cells(id,11).getValue();
 		document.frmSKPDHotel.penagih.value 	 	= grid.cells(id,13).getValue();
 		document.frmSKPDHotel.buku.value 	    = grid.cells(id,14).getValue();//tes
@@ -956,7 +979,9 @@
 				if(result) {
 					kir = result.split('|');
 					document.frmSKPDHotel.kd2.value = kir[0];                                        
-					document.frmSKPDHotel.nm2.value = kir[1];                                        
+					document.frmSKPDHotel.nm2.value = kir[1];    
+					console.log(kir[0]);
+					console.log(kir[1]);
 					statusEnding();
 				}
 			} else {

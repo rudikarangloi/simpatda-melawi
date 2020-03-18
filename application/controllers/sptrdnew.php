@@ -28,6 +28,12 @@ class sptrdnew extends MY_Controller {
 		$data['nm_modul'] = $s->nm_modul;
 		//$data['gresto'] = $this->db->query("select kd_rek,concat(kd_rek, ' | ',nm_rek) as nm_rek from master_rekening where jns_pajak='01' and status_aktif ='1'");
 		$data['gresto'] = $this->db->query("select kd_rek,concat(kd_rek, ' | ',nm_rek) as nm_rek from master_rekening where kd_rek LIKE '%4.1.2.%' AND jns_pajak !='0' and status_aktif ='1'");
+		
+		$data['sub_gresto'] = $this->db->query("
+					select kd_rek,concat(kd_rek, ' | ',LEFT(nm_rek,60)) as nm_rek 
+					from master_rekening_rincian ORDER BY kd_rek ASC
+					");
+		
 		$data['userPetugas'] = $this->session->userdata('username');
 		$data['tarif'] = $tarif->tarif_pajak;
 		$data['skpd'] = $this->db->query("SELECT kd_skpd,CONCAT(kd_skpd, ' | ',nama_skpd) AS nama_skpd FROM master_skpd");
@@ -89,6 +95,15 @@ class sptrdnew extends MY_Controller {
 		}else{
 			$where = "";
 		}
+		
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		
+		if($q!=""){
+			$where = "WHERE header='$q'";
+		}else{
+			$where = "";
+		}
+		
 		$sql = "select kd_rek,nm_rek from master_rekening_rincian $where ORDER BY kd_rek ASC";
 		$query1 = $this->db->query($sql);  
         $ii = 0;
