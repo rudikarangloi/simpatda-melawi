@@ -1,0 +1,8 @@
+No. = statis
+Kode Rekening 5 = 'rek4' 'karakter 3'
+jumlah anggaran = ''
+penerimaan bln ini = sum(nilai)
+pnrimaan bln lalu = bulan ini - 1
+penerimaan sampai bulan ini = bln ini + bln lalu
+presentase
+sisa target = pnrimaan smpai bln ini - jml anggaran 

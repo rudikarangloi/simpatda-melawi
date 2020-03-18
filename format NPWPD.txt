@@ -1,0 +1,15 @@
+format NPWPD
+
+1.1.000001.01.001
+
+KET:
+
+KOLOM 1 -> Kode jenis 1 digit
+	   1 = pajak daerah
+	   2 = retribusi daerah
+kolom 2 -> kode objek 1 digit
+	   1 = perorangan
+	   2 = Badan Usahan
+kolom 3 -> no urut  6 digit
+kolom 4 -> kode Kecamatan 2 digit
+kolom 5 -> kode kelurahan 3 digit 	

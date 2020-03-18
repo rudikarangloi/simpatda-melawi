@@ -1,0 +1,67 @@
+/* 
+    Document   : cssbutton
+    Created on : 29 Mar 12, 15:55:11
+    Author     : Sepry haryandi
+    Description:
+        CSS Button for Form
+*/
+
+button.css3button {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #22427b;
+	padding: 10px 20px;
+	background: -moz-linear-gradient(
+		top,
+		#e3ecf7 0%,
+		#bacee8);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#e3ecf7),
+		to(#bacee8));
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border: 1px solid #c1cfda;
+	-moz-box-shadow:
+		0px 1px 3px rgba(162,182,207,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	-webkit-box-shadow:
+		0px 1px 3px rgba(162,182,207,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	text-shadow:
+		0px 0px 0px rgba(000,000,000,0.6),
+		0px 1px 0px rgba(255,255,255,1);
+}
+
+button.css3button:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #22427b;
+	padding: 10px 20px;
+	background: -moz-linear-gradient(
+		top,
+		#bacee8 0%,
+		#e3ecf7);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#bacee8),
+		to(#e3ecf7));
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border: 1px solid #c1cfda;
+	-moz-box-shadow:
+		0px 1px 3px rgba(162,182,207,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	-webkit-box-shadow:
+		0px 1px 3px rgba(162,182,207,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	text-shadow:
+		0px 0px 0px rgba(000,000,000,0.6),
+		0px 1px 0px rgba(255,255,255,1);
+}
+
+
+
+
